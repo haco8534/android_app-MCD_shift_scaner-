@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:nholiday_jp/nholiday_jp.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(const MyApp()));
@@ -16,11 +16,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        splashColor: Colors.transparent,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        splashColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'MCDシフトAIスキャナー(仮)'),
     );
   }
 }
@@ -34,10 +34,18 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-DateTime _focusedDay = DateTime.now();
-DateTime? _selectedDay;
+
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  List<String> _selectedEvents = [];
+
+  final sampleEvents = {
+  DateTime.utc(2024, 5, 3): ['firstEvent', 'secodnEvent'],
+  DateTime.utc(2024, 5, 5): ['thirdEvent', 'fourthEvent']
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -55,38 +63,91 @@ class _MyHomePageState extends State<MyHomePage> {
         ]
       ),
 
-      body: Center(
-        child: TableCalendar(
-          firstDay: DateTime.utc(2010, 10, 16),
-          lastDay: DateTime.utc(2030, 3, 14),
-          focusedDay: _focusedDay,
-          locale: 'ja_JP',
-          selectedDayPredicate: (day){
-            return isSameDay(_selectedDay, day);
-          },
-          onDaySelected: (selectedDay,focusedDay){
-            setState((){
-              _selectedDay = selectedDay;
-              _focusedDay = focusedDay;
-            });
-          },
-        ),
+      body: Column(
+        children: <Widget>[ 
+          SizedBox(
+          height: 450, //カレンダーの高さ
+            child: TableCalendar(
+              firstDay: DateTime.utc(2010, 10, 16),
+              lastDay: DateTime.utc(2030, 3, 14),
+              focusedDay: _focusedDay,
+
+              headerStyle: const HeaderStyle(
+                formatButtonVisible: false, //フォーマットボタンを非表示
+                titleCentered: true, //日付を中央に配置
+              ),
+
+              locale: 'ja_JP',
+              selectedDayPredicate: (day){
+                return isSameDay(_selectedDay, day);
+              },
+              eventLoader: (date) { //イベントを表示
+                return sampleEvents[date] ?? [];
+              },
+              shouldFillViewport: true, //大きさの変更を許可
+
+              onDaySelected: (selectedDay,focusedDay){
+                setState((){
+                  _selectedDay = selectedDay; //選択された日付
+                  _focusedDay = focusedDay; //強調表示する日付
+                  _selectedEvents = sampleEvents[selectedDay] ?? [];
+                });
+              },
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            decoration: BoxDecoration(
+              border: Border.all(color:Colors.black, width: 1),
+              color: Colors.blueGrey[50],
+              ),
+            child: Center(
+              child: Text(
+                DateFormat("yyyy年M月d日(E)","ja").format(_selectedDay ?? DateTime.now()), //選択された日付を表示
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              
+            ),
+          ),
+        ],
       ),
     
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
-            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'お気に入り'),
-            BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'お知らせ'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'アカウント'),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム',),
+            BottomNavigationBarItem(icon: Icon(Icons.exposure_minus_1), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: '設定'),
           ],
         ),
-        
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,  
+      floatingActionButton: SizedBox(
+        width: 100,
+        height: 100,
+        child: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50), //角の丸み
+          ),
+          onPressed: (){},
+          tooltip: 'Increment',
+          backgroundColor: Colors.green,
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.camera_alt,color: Colors.white,size: 35),
+              Text('スキャン',style:TextStyle(color: Colors.white)),
+            ],
+          ),
+          ),
       ),
       
     );
