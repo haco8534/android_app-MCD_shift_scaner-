@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:test_app/edit_task.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(const MyApp()));
@@ -34,13 +35,13 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
-
 class _MyHomePageState extends State<MyHomePage> {
 
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   List<String> _selectedEvents = [];
+  // ignore: unused_field
+  int? _index;
 
   final sampleEvents = {
   DateTime.utc(2024, 5, 3): ['firstEvent', 'secodnEvent'],
@@ -112,10 +113,28 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Expanded(
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: double.infinity,
-              
+              child: ListView.builder(
+                itemCount: _selectedEvents.length,
+                itemBuilder: (context, index) {
+                  final event = _selectedEvents[index];
+                  return Card(
+                    child: ListTile(
+                      leading: const Icon(Icons.calendar_month),
+                      title: Text(event,style: const TextStyle(fontSize: 20),),
+                      onTap: (){
+                        _index = index;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => EditTask(_selectedDay ?? DateTime.now(),index)),
+                        );
+                      },
+                      ),
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -129,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: '設定'),
           ],
         ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,  
       floatingActionButton: SizedBox(
         width: 100,
