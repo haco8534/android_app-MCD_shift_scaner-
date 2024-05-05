@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'MCDシフトAIスキャナー(仮)'),
+      home: const MyHomePage(title: 'なんでもいい'),
     );
   }
 }
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int? _index;
 
   final sampleEvents = {
-  DateTime.utc(2024, 5, 3): ['firstEvent', 'secodnEvent'],
+  DateTime.utc(2024, 5, 12): ['firstEvent', 'secodnEvent'],
   DateTime.utc(2024, 5, 5): ['thirdEvent', 'fourthEvent']
   };
 
@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
+        toolbarHeight: 40,
         title: Text(widget.title),
         actions:const <Widget>[
           Icon(Icons.add),
@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[ 
           SizedBox(
-          height: 450, //カレンダーの高さ
+          height: 400, //カレンダーの高さ
             child: TableCalendar(
               firstDay: DateTime.utc(2010, 10, 16),
               lastDay: DateTime.utc(2030, 3, 14),
@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Container(
             width: double.infinity,
-            height: 50,
+            height: 40,
             decoration: BoxDecoration(
               border: Border.all(color:Colors.black, width: 1),
               color: Colors.blueGrey[50],
