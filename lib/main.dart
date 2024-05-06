@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:test_app/edit_task.dart';
+import 'models.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(const MyApp()));
@@ -36,6 +37,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  DatabaseHelper dbHelper = DatabaseHelper(); //データベースのインスタンス
 
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
