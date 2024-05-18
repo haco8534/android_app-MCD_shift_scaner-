@@ -2,7 +2,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-
 class UserData {
   final int? id;
   final String? name;
@@ -14,14 +13,7 @@ class UserData {
   int? get getWage => wage;
   String? get getThemeColor => theme_color;
 
-  UserData(
-    { 
-      this.id,
-      this.name,
-      this.wage,
-      this.theme_color
-    }
-  );
+  UserData({this.id, this.name, this.wage, this.theme_color});
 
   Map<String, dynamic> toMap() {
     return {
@@ -29,13 +21,11 @@ class UserData {
       'name': name,
       'wage': wage,
       'theme_color': theme_color,
-
     };
   }
 }
 
-class DatabaseHelper {
-
+class UserDatabaseHelper {
   //databaseが存在するか
   static Database? _database;
   Future<Database?> get database async {
@@ -47,11 +37,10 @@ class DatabaseHelper {
     return _database;
   }
 
-
   Future<Database> initDatabase() async {
     //databaseのパスを作成
     String path = join(await getDatabasesPath(), "user_info.db");
-    
+
     return await openDatabase(
       path,
       version: 1,
@@ -67,10 +56,11 @@ class DatabaseHelper {
       },
     );
   }
+
   //全データの取得
   Future<List<UserData>> getAllData() async {
     final Database? db = await database;
-    final List<Map<String, dynamic>> maps  = await db!.query('user_info');
+    final List<Map<String, dynamic>> maps = await db!.query('user_info');
     return List.generate(maps.length, (i) {
       return UserData(
         id: maps[i]['id'],
@@ -78,13 +68,17 @@ class DatabaseHelper {
         wage: maps[i]['wage'],
         theme_color: maps[i]['theme_color'],
       );
-    }
-    );
+    });
   }
+
   //指定したidの取得
   Future<List<UserData>> getDataById(int id) async {
     final Database? db = await database;
-    List<Map<String, dynamic>> maps = await db!.query('user_info', where: "id=?", whereArgs: [id],);
+    List<Map<String, dynamic>> maps = await db!.query(
+      'user_info',
+      where: "id=?",
+      whereArgs: [id],
+    );
     return List.generate(maps.length, (i) {
       return UserData(
         id: maps[i]['id'],
@@ -98,17 +92,20 @@ class DatabaseHelper {
   //挿入
   Future<void> insertData(UserData data) async {
     final Database? db = await database;
-    await db!.insert('user_info', data.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db!.insert('user_info', data.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
+
   //更新
-  Future<int> updateData(int id, Map<String, dynamic> data)  async {
+  Future<int> updateData(int id, Map<String, dynamic> data) async {
     final Database? db = await database;
-    return await db!.update('user_info', data, where: 'id = ?', whereArgs: [id]);
+    return await db!
+        .update('user_info', data, where: 'id = ?', whereArgs: [id]);
   }
+
   //削除
   Future<int> deleteData(int id) async {
     final Database? db = await database;
     return await db!.delete('user_info', where: 'id = ?', whereArgs: [id]);
   }
 }
-

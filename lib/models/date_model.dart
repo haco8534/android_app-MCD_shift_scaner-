@@ -2,7 +2,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-
 class StartToEnd {
   final int? id;
   final String? year;
@@ -20,15 +19,14 @@ class StartToEnd {
   String? get getEndTime => end_time;
   String? get getBreakTime => break_time;
 
-  StartToEnd({
-    this.id,
-    this.year,
-    this.month,
-    this.day,
-    this.start_time,
-    this.end_time,
-    this.break_time}
-  );
+  StartToEnd(
+      {this.id,
+      this.year,
+      this.month,
+      this.day,
+      this.start_time,
+      this.end_time,
+      this.break_time});
 
   Map<String, dynamic> toMap() {
     return {
@@ -43,8 +41,7 @@ class StartToEnd {
   }
 }
 
-class DatabaseHelper {
-
+class DateDatabaseHelper {
   //databaseが存在するか
   static Database? _database;
   Future<Database?> get database async {
@@ -56,11 +53,10 @@ class DatabaseHelper {
     return _database;
   }
 
-
   Future<Database> initDatabase() async {
     //databaseのパスを作成
     String path = join(await getDatabasesPath(), "my_database.db");
-    
+
     return await openDatabase(
       path,
       version: 1,
@@ -79,10 +75,11 @@ class DatabaseHelper {
       },
     );
   }
+
   //全データの取得
   Future<List<StartToEnd>> getAllData() async {
     final Database? db = await database;
-    final List<Map<String, dynamic>> maps  = await db!.query('my_table');
+    final List<Map<String, dynamic>> maps = await db!.query('my_table');
     return List.generate(maps.length, (i) {
       return StartToEnd(
         id: maps[i]['id'],
@@ -93,13 +90,17 @@ class DatabaseHelper {
         end_time: maps[i]['end_time'],
         break_time: maps[i]['break_time'],
       );
-    }
-    );
+    });
   }
+
   //指定したidの取得
   Future<List<StartToEnd>> getDataById(int id) async {
     final Database? db = await database;
-    List<Map<String, dynamic>> maps = await db!.query('my_table', where: "id=?", whereArgs: [id],);
+    List<Map<String, dynamic>> maps = await db!.query(
+      'my_table',
+      where: "id=?",
+      whereArgs: [id],
+    );
     return List.generate(maps.length, (i) {
       return StartToEnd(
         id: maps[i]['id'],
@@ -116,17 +117,19 @@ class DatabaseHelper {
   //挿入
   Future<void> insertData(StartToEnd data) async {
     final Database? db = await database;
-    await db!.insert('my_table', data.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db!.insert('my_table', data.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
+
   //更新
-  Future<int> updateData(int id, Map<String, dynamic> data)  async {
+  Future<int> updateData(int id, Map<String, dynamic> data) async {
     final Database? db = await database;
     return await db!.update('my_table', data, where: 'id = ?', whereArgs: [id]);
   }
+
   //削除
   Future<int> deleteData(int id) async {
     final Database? db = await database;
     return await db!.delete('my_table', where: 'id = ?', whereArgs: [id]);
   }
 }
-
