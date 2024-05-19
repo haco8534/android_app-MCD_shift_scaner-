@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mcd_app/shift/add_shift.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'models/date_model.dart';
-import 'edit_task.dart';
+import 'shift/edit_shift.dart';
 
 class ShiftCalender extends StatefulWidget {
   const ShiftCalender({super.key});
@@ -116,7 +117,9 @@ class _ShiftCalenderState extends State<ShiftCalender> {
                     fontSize: 20,
                   ),
                   headerPadding: EdgeInsets.all(1)),
-
+              daysOfWeekStyle: const DaysOfWeekStyle(
+                  weekdayStyle: TextStyle(fontSize: 12, color: Colors.black),
+                  weekendStyle: TextStyle(fontSize: 12, color: Colors.red)),
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);
               },
@@ -177,6 +180,7 @@ class _ShiftCalenderState extends State<ShiftCalender> {
         */
           Container(
             //日付表示
+
             width: double.infinity,
             height: 30,
             decoration: BoxDecoration(
@@ -224,6 +228,23 @@ class _ShiftCalenderState extends State<ShiftCalender> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddTask(_selectedDay ?? DateTime.now())),
+          );
+        }),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add, color: Colors.white, size: 20),
+            Text('追加', style: TextStyle(color: Colors.white)),
+          ],
+        ),
       ),
     );
   }

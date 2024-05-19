@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:intl/intl.dart';
 
-import 'models/date_model.dart';
+import '../models/date_model.dart';
 
 class EditTask extends StatefulWidget {
   const EditTask(this._selectedDay, this._selectedData, {super.key});
