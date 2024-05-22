@@ -38,7 +38,7 @@ class _AddTaskState extends State<AddTask> {
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () {
-        Navigator.of(context).pop(dbHelper.getAllData());
+        Navigator.of(context).pop();
         return Future.value(false);
       },
       child: Scaffold(
@@ -64,38 +64,38 @@ class _AddTaskState extends State<AddTask> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(children: [
-                        const Icon(
-                          Icons.calendar_month,
-                          size: 40,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                                side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            )),
-                            onPressed: () {
-                              DatePicker.showDatePicker(context,
-                                  showTitleActions: true,
-                                  currentTime: thisDate_date,
-                                  minTime: DateTime(2023, 1, 1),
-                                  maxTime: DateTime(2030, 12, 31),
-                                  onConfirm: (date) {
-                                thisDate_str =
-                                    DateFormat("yyyy/M/d").format(date);
-                                thisDate_date = DateFormat("yyyy/M/d")
-                                    .parseStrict(thisDate_str);
-                                setState(() {});
-                              }, locale: LocaleType.jp);
-                            },
-                            child: Text(thisDate_str,
-                                style: const TextStyle(fontSize: 20)),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_month,
+                            size: 40,
                           ),
-                        ),
-                      ]),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                  side: const BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              )),
+                              onPressed: () {
+                                DatePicker.showDatePicker(context,
+                                    showTitleActions: true,
+                                    currentTime: thisDate_date,
+                                    minTime: DateTime(2023, 1, 1),
+                                    maxTime: DateTime(2030, 12, 31),
+                                    onConfirm: (date) {
+                                  thisDate_str = DateFormat("yyyy/M/d").format(date);
+                                  thisDate_date = DateFormat("yyyy/M/d").parseStrict(thisDate_str);
+                                  setState(() {});
+                                }, locale: LocaleType.jp);
+                              },
+                              child: Text(thisDate_str,
+                                  style: const TextStyle(fontSize: 20)),
+                            ),
+                          ),
+                        ],
+                      ),
                       Row(
                         children: [
                           const Icon(
@@ -189,7 +189,17 @@ class _AddTaskState extends State<AddTask> {
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.pop(context, dbHelper.getAllData());
+                      dbHelper.insertData(
+                        StartToEnd(
+                          year: DateFormat("yyyy").format(thisDate_date!),
+                          month: DateFormat("M").format(thisDate_date!),
+                          day: DateFormat("d").format(thisDate_date!),
+                          start_time: startTime,
+                          end_time: endTime,
+                          break_time: "0",
+                        )
+                      );
+                      Navigator.pop(context);
                     },
                     child: const Text("完了"))
               ],

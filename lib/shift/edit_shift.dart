@@ -192,17 +192,20 @@ class _EditTaskState extends State<EditTask> {
                     onPressed: () {
                       int id = widget._selectedData!.getId!;
                       //データべース更新
-                      dbHelper.updateData(id,
-                          {"year": DateFormat("yyyy").format(thisDate_date!)});
-                      dbHelper.updateData(id,
-                          {"month": DateFormat("M").format(thisDate_date!)});
-                      dbHelper.updateData(
-                          id, {"day": DateFormat("dd").format(thisDate_date!)});
+                      dbHelper.updateData(id,{"year": DateFormat("yyyy").format(thisDate_date!)});
+                      dbHelper.updateData(id,{"month": DateFormat("M").format(thisDate_date!)});
+                      dbHelper.updateData(id, {"day": DateFormat("dd").format(thisDate_date!)});
                       dbHelper.updateData(id, {"start_time": startTime});
                       dbHelper.updateData(id, {"end_time": endTime});
                       Navigator.pop(context, dbHelper.getAllData());
                     },
-                    child: const Text("完了"))
+                    child: const Text("完了")),
+                TextButton(
+                  onPressed: (){
+                    dbHelper.deleteData(widget._selectedData!.getId!);
+                    Navigator.pop(context, dbHelper.getAllData());
+                  },
+                  child:const Text("削除")),
               ],
             ),
           )),
