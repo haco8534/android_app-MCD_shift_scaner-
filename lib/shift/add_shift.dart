@@ -17,7 +17,7 @@ class AddTask extends StatefulWidget {
 
 class _AddTaskState extends State<AddTask> {
   //データベースのインスタンス
-  final DateDatabaseHelper dbHelper = DateDatabaseHelper();
+  final DateDatabaseHelper dbShiftHelper = DateDatabaseHelper();
 
   String thisDate_str = "";
   String startTime = "";
@@ -191,7 +191,7 @@ class _AddTaskState extends State<AddTask> {
                 ),
                 TextButton(
                     onPressed: () {
-                      dbHelper.insertData(
+                      dbShiftHelper.insertData(
                         StartToEnd(
                           year: DateFormat("yyyy").format(thisDate_date!),
                           month: DateFormat("M").format(thisDate_date!),
@@ -201,7 +201,7 @@ class _AddTaskState extends State<AddTask> {
                           break_time: "0",
                         ),
                       );
-                      Navigator.pop(context, dbHelper.getAllData());
+                      Navigator.pop(context, dbShiftHelper.getAllData());
                     },
                     child: const Text("完了")),
               ],

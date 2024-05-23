@@ -18,8 +18,14 @@ Future<void> main() async {
   await initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         splashColor: Colors.transparent,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'AIシフト'),
     );
   }
 }
@@ -45,7 +51,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateDatabaseHelper dbHelper = DateDatabaseHelper(); //データベースのインスタンス
+  DateDatabaseHelper dbShiftHelper = DateDatabaseHelper(); //データベースのインスタンス
   List<StartToEnd> dbEventList = []; //データベースから取得したMapデータのリスト
   List<StartToEnd> textList = []; //ListView用テキストリスト
   String textData = ""; //ListTile用テキスト
@@ -88,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    dbHelper.getAllData().then((times) {
+    dbShiftHelper.getAllData().then((times) {
       setState(() {
         dbEventList = times;
       });

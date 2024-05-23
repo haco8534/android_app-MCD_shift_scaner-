@@ -18,7 +18,7 @@ class EditTask extends StatefulWidget {
 
 class _EditTaskState extends State<EditTask> {
   //データベースのインスタンス
-  final DateDatabaseHelper dbHelper = DateDatabaseHelper();
+  final DateDatabaseHelper dbShiftHelper = DateDatabaseHelper();
 
   String thisDate_str = "";
   String startTime = "";
@@ -39,7 +39,7 @@ class _EditTaskState extends State<EditTask> {
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () {
-        Navigator.of(context).pop(dbHelper.getAllData());
+        Navigator.of(context).pop(dbShiftHelper.getAllData());
         return Future.value(false);
       },
       child: Scaffold(
@@ -199,12 +199,12 @@ class _EditTaskState extends State<EditTask> {
                       onPressed: () {
                         int id = widget._selectedData!.getId!;
                         //データべース更新
-                        dbHelper.updateData(id, {"year": DateFormat("yyyy").format(thisDate_date!)});
-                        dbHelper.updateData(id,{"month": DateFormat("M").format(thisDate_date!)});
-                        dbHelper.updateData(id,{"day": DateFormat("dd").format(thisDate_date!)});
-                        dbHelper.updateData(id, {"start_time": startTime});
-                        dbHelper.updateData(id, {"end_time": endTime});
-                        Navigator.pop(context, dbHelper.getAllData());
+                        dbShiftHelper.updateData(id, {"year": DateFormat("yyyy").format(thisDate_date!)});
+                        dbShiftHelper.updateData(id,{"month": DateFormat("M").format(thisDate_date!)});
+                        dbShiftHelper.updateData(id,{"day": DateFormat("dd").format(thisDate_date!)});
+                        dbShiftHelper.updateData(id, {"start_time": startTime});
+                        dbShiftHelper.updateData(id, {"end_time": endTime});
+                        Navigator.pop(context, dbShiftHelper.getAllData());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -219,8 +219,8 @@ class _EditTaskState extends State<EditTask> {
                   width: 350,
                   child: ElevatedButton(
                       onPressed: () {
-                        dbHelper.deleteData(widget._selectedData!.getId!);
-                        Navigator.pop(context, dbHelper.getAllData());
+                        dbShiftHelper.deleteData(widget._selectedData!.getId!);
+                        Navigator.pop(context, dbShiftHelper.getAllData());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey,

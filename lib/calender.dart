@@ -16,7 +16,7 @@ class ShiftCalender extends StatefulWidget {
 }
 
 class _ShiftCalenderState extends State<ShiftCalender> {
-  DateDatabaseHelper dbHelper = DateDatabaseHelper(); //データベースのインスタンス
+  DateDatabaseHelper dbShiftHelper = DateDatabaseHelper(); //データベースのインスタンス
   List<StartToEnd> dbEventList = []; //データベースから取得したMapデータのリスト
   List<StartToEnd> textList = []; //ListView用テキストリスト
   String textData = ""; //ListTile用テキスト
@@ -34,7 +34,7 @@ class _ShiftCalenderState extends State<ShiftCalender> {
   void initState() {
     super.initState();
 
-    dbHelper.getAllData().then((times) {
+    dbShiftHelper.getAllData().then((times) {
       setState(() {
         dbEventList = times;
       });
@@ -62,7 +62,7 @@ class _ShiftCalenderState extends State<ShiftCalender> {
     //ある日付のidを取得した時
     if (_seledtedId.isNotEmpty) {
       //その日付のデータリスト取得
-      _selectedDataList = await dbHelper.getDataById(_seledtedId[0]);
+      _selectedDataList = await dbShiftHelper.getDataById(_seledtedId[0]);
       //1つ目のデータを取得 <=将来的には押したボタンを判定する
       _selectedData = _selectedDataList[0];
     }
@@ -94,14 +94,14 @@ class _ShiftCalenderState extends State<ShiftCalender> {
             children: [
               TextButton(
                 onPressed: ()async{
-                  dbHelper.insertData(
+                  dbShiftHelper.insertData(
                     StartToEnd(id: int.parse(idText),year: "2024",month: "5",day: "15",start_time: "12:00",end_time: "23:00"));
                 },
                 child: const Text("db挿入"),
               ),
               TextButton(
                 onPressed: (()async{
-                  dbHelper.deleteData(int.parse(idText));
+                  dbShiftHelper.deleteData(int.parse(idText));
                 }),
                 child: const Text("db削除"),
               ),
