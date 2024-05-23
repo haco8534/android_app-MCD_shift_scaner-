@@ -191,17 +191,19 @@ class _AddTaskState extends State<AddTask> {
                 ),
                 TextButton(
                     onPressed: () {
-                      dbHelper.insertData(StartToEnd(
-                        year: DateFormat("yyyy").format(thisDate_date!),
-                        month: DateFormat("M").format(thisDate_date!),
-                        day: DateFormat("d").format(thisDate_date!),
-                        start_time: startTime,
-                        end_time: endTime,
-                        break_time: "0",
-                      ));
+                      dbHelper.insertData(
+                        StartToEnd(
+                          year: DateFormat("yyyy").format(thisDate_date!),
+                          month: DateFormat("M").format(thisDate_date!),
+                          day: DateFormat("d").format(thisDate_date!),
+                          start_time: startTime,
+                          end_time: endTime,
+                          break_time: "0",
+                        ),
+                      );
                       Navigator.pop(context, dbHelper.getAllData());
                     },
-                    child: const Text("完了"))
+                    child: const Text("完了")),
               ],
             ),
           )),
