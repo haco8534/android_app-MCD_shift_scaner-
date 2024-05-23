@@ -85,8 +85,10 @@ class _AddTaskState extends State<AddTask> {
                                     minTime: DateTime(2023, 1, 1),
                                     maxTime: DateTime(2030, 12, 31),
                                     onConfirm: (date) {
-                                  thisDate_str = DateFormat("yyyy/M/d").format(date);
-                                  thisDate_date = DateFormat("yyyy/M/d").parseStrict(thisDate_str);
+                                  thisDate_str =
+                                      DateFormat("yyyy/M/d").format(date);
+                                  thisDate_date = DateFormat("yyyy/M/d")
+                                      .parseStrict(thisDate_str);
                                   setState(() {});
                                 }, locale: LocaleType.jp);
                               },
@@ -189,17 +191,15 @@ class _AddTaskState extends State<AddTask> {
                 ),
                 TextButton(
                     onPressed: () {
-                      dbHelper.insertData(
-                        StartToEnd(
-                          year: DateFormat("yyyy").format(thisDate_date!),
-                          month: DateFormat("M").format(thisDate_date!),
-                          day: DateFormat("d").format(thisDate_date!),
-                          start_time: startTime,
-                          end_time: endTime,
-                          break_time: "0",
-                        )
-                      );
-                      Navigator.pop(context);
+                      dbHelper.insertData(StartToEnd(
+                        year: DateFormat("yyyy").format(thisDate_date!),
+                        month: DateFormat("M").format(thisDate_date!),
+                        day: DateFormat("d").format(thisDate_date!),
+                        start_time: startTime,
+                        end_time: endTime,
+                        break_time: "0",
+                      ));
+                      Navigator.pop(context, dbHelper.getAllData());
                     },
                     child: const Text("完了"))
               ],

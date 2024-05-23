@@ -68,6 +68,23 @@ class _ShiftCalenderState extends State<ShiftCalender> {
     }
   }
 
+  void setEventMap() {
+    //イベントを表示
+    String? thisDay;
+    DateTime utcThisDay;
+    DateTime dateFormat;
+
+    eventMap.clear();
+
+    for (StartToEnd shift in dbEventList) {
+      thisDay = "${shift.getYear!}/${shift.getMonth!}/${shift.getDay!}";
+      dateFormat = DateFormat("yyyy/M/d").parseStrict(thisDay);
+      utcThisDay =
+          DateTime.utc(dateFormat.year, dateFormat.month, dateFormat.day);
+      eventMap[utcThisDay] = ['${shift.getStartTime}~${shift.getEndTime}'];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +115,8 @@ class _ShiftCalenderState extends State<ShiftCalender> {
               ),
             ],
           ),*/
-          SizedBox( //カレンダー
+          SizedBox(
+            //カレンダー
             width: double.infinity,
             height: 300,
             child: TableCalendar(
@@ -132,24 +150,7 @@ class _ShiftCalenderState extends State<ShiftCalender> {
               },
               eventLoader: (date) {
                 //イベントを表示
-
-                String? thisDay;
-                DateTime utcThisDay;
-                DateTime dateFormat;
-
-                eventMap.clear();
-
-                for (StartToEnd shift in dbEventList) {
-                  thisDay =
-                      "${shift.getYear!}/${shift.getMonth!}/${shift.getDay!}";
-                  dateFormat = DateFormat("yyyy/M/d").parseStrict(thisDay);
-                  utcThisDay = DateTime.utc(
-                      dateFormat.year, dateFormat.month, dateFormat.day);
-                  eventMap[utcThisDay] = [
-                    '${shift.getStartTime}~${shift.getEndTime}'
-                  ];
-                }
-
+                setEventMap();
                 return eventMap[date] ?? [];
               },
             ),
@@ -177,7 +178,8 @@ class _ShiftCalenderState extends State<ShiftCalender> {
             ),
           ),
         */
-          Container( //日付表示
+          Container(
+            //日付表示
             width: double.infinity,
             height: 30,
             decoration: BoxDecoration(
@@ -194,7 +196,8 @@ class _ShiftCalenderState extends State<ShiftCalender> {
               ),
             ),
           ),
-          Expanded( //イベントリスト
+          Expanded(
+            //イベントリスト
             child: SizedBox(
               child: ListView.builder(
                 itemCount: _selectedEvents.length,
@@ -215,6 +218,9 @@ class _ShiftCalenderState extends State<ShiftCalender> {
                                   _selectedDay ?? DateTime.now(),
                                   _selectedData)),
                         );
+                        //イベントリストリセット
+                        setEventMap();
+                        _selectedEvents = eventMap[_selectedDay] ?? [];
                         setState(() {});
                       },
                     ),
@@ -223,51 +229,37 @@ class _ShiftCalenderState extends State<ShiftCalender> {
               ),
             ),
           ),
-          Row( //シフト追加
+          Row(
+            //シフト追加
             mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right:10,bottom: 20),
-                  child: OutlinedButton(
-                  onPressed: (){
-                    Navigator.push(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10, bottom: 20),
+                child: OutlinedButton(
+                  onPressed: () async {
+                    dbEventList = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddTask(_selectedDay ?? DateTime.now())),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AddTask(_selectedDay ?? DateTime.now())),
                     );
-                    setState((){});
+                    setState(() {});
                   },
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(50, 60),
                   ),
-                  child: const Column(children: [
-                    Icon(Icons.add),
-                    Text("追加"),
-                  ],),
+                  child: const Column(
+                    children: [
+                      Icon(Icons.add),
+                      Text("追加"),
+                    ],
                   ),
                 ),
-            ]
-          )
+              ),
+            ],
+          ),
         ],
       ),
-      /*
-      floatingActionButton: FloatingActionButton(
-        onPressed: (() {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddTask(_selectedDay ?? DateTime.now())),
-          );
-        }),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.add, color: Colors.white, size: 20),
-            Text('追加', style: TextStyle(color: Colors.white)),
-          ],
-        ),
-      ),
-      */
     );
   }
 }
