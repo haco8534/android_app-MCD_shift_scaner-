@@ -67,38 +67,40 @@ class _EditTaskState extends State<EditTask> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(children: [
-                        const Icon(
-                          Icons.calendar_month,
-                          size: 40,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                                side: const BorderSide(
-                              color: Colors.grey,
-                              width: 1,
-                            )),
-                            onPressed: () {
-                              DatePicker.showDatePicker(context,
-                                  showTitleActions: true,
-                                  currentTime: thisDate_date,
-                                  minTime: DateTime(2023, 1, 1),
-                                  maxTime: DateTime(2030, 12, 31),
-                                  onConfirm: (date) {
-                                thisDate_str =
-                                    DateFormat("yyyy/M/d").format(date);
-                                thisDate_date = DateFormat("yyyy/M/d")
-                                    .parseStrict(thisDate_str);
-                                setState(() {});
-                              }, locale: LocaleType.jp);
-                            },
-                            child: Text(thisDate_str,
-                                style: const TextStyle(fontSize: 20)),
+                      Row(
+                          children: [
+                          const Icon(
+                            Icons.calendar_month,
+                            size: 40,
                           ),
-                        ),
-                      ]),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                  side: const BorderSide(
+                                color: Colors.grey,
+                                width: 1,
+                              )),
+                              onPressed: () {
+                                DatePicker.showDatePicker(context,
+                                    showTitleActions: true,
+                                    currentTime: thisDate_date,
+                                    minTime: DateTime(2023, 1, 1),
+                                    maxTime: DateTime(2030, 12, 31),
+                                    onConfirm: (date) {
+                                  thisDate_str =
+                                      DateFormat("yyyy/M/d").format(date);
+                                  thisDate_date = DateFormat("yyyy/M/d")
+                                      .parseStrict(thisDate_str);
+                                  setState(() {});
+                                }, locale: LocaleType.jp);
+                              },
+                              child: Text(thisDate_str,
+                                  style: const TextStyle(fontSize: 20)),
+                            ),
+                          ),
+                        ],
+                      ),
                       Row(
                         children: [
                           const Icon(
@@ -214,19 +216,22 @@ class _EditTaskState extends State<EditTask> {
                       child: const Text("完了")),
                 ),
                 ),
-                SizedBox(
-                  height: 50,
-                  width: 350,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        dbShiftHelper.deleteData(widget._selectedData!.getId!);
-                        Navigator.pop(context, dbShiftHelper.getAllData());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                      child: const Text("削除")),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10,left: 10,bottom: 10),
+                  child: SizedBox(
+                    height: 50,
+                    width: 350,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          dbShiftHelper.deleteData(widget._selectedData!.getId!);
+                          Navigator.pop(context, dbShiftHelper.getAllData());
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        child: const Text("削除")),
+                  ),
                 ),
               ],
             ),

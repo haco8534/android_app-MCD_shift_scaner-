@@ -38,7 +38,7 @@ class _AddTaskState extends State<AddTask> {
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(dbShiftHelper.getAllData());
         return Future.value(false);
       },
       child: Scaffold(
@@ -189,7 +189,12 @@ class _AddTaskState extends State<AddTask> {
                     ],
                   ),
                 ),
-                TextButton(
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: SizedBox(
+                  height: 50,
+                  width: 350,
+                  child: ElevatedButton(
                     onPressed: () {
                       dbShiftHelper.insertData(
                         StartToEnd(
@@ -203,7 +208,14 @@ class _AddTaskState extends State<AddTask> {
                       );
                       Navigator.pop(context, dbShiftHelper.getAllData());
                     },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onPrimary,
+                      ),
                     child: const Text("完了")),
+                  ),
+                ),
               ],
             ),
           )),

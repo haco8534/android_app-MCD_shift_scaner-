@@ -2,13 +2,13 @@ import 'package:mcd_app/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 Future<ColorScheme> setColor()async{
-  //ƒf[ƒ^ƒx[ƒX‚©‚çŽæ“¾‚µ‚½F
+  //ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‹ã‚‰å–å¾—ã—ãŸè‰²
   String colorName;
-  //–ß‚è’l‚ÌƒJƒ‰[ƒXƒL[ƒ€
+  //ã‚«ãƒ©ãƒ¼ã‚¹ã‚­ãƒ¼ãƒ 
   ColorScheme? colorScheme;
-  //ƒ†[ƒU[ƒf[ƒ^‚Ìƒf[ƒ^ƒx[ƒX
+  //ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
   UserDatabaseHelper dbUserHelper = UserDatabaseHelper();
-  //ƒf[ƒ^ƒx[ƒX‘Sƒf[ƒ^
+  //ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®å…¨ãƒ‡ãƒ¼ã‚¿
   List<UserData> data;
 
   data = await dbUserHelper.getAllData();
@@ -18,5 +18,5 @@ Future<ColorScheme> setColor()async{
     colorScheme = ColorScheme.fromSeed(seedColor: Colors.blue);
   }
 
-  return colorScheme!;//<=Œã‚Ånull‚Å‚È‚¢‚æ‚¤‚É‚·‚é
+  return colorScheme!;
 }

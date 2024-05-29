@@ -9,6 +9,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:mcd_app/models/user_model.dart';
 
 import 'models/date_model.dart';
 
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
         splashColor: Colors.transparent,
       ),
-      home: const MyHomePage(title: 'AIシフト'),
+      home: const MyHomePage(title: ''),
     );
   }
 }
@@ -51,7 +52,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateDatabaseHelper dbShiftHelper = DateDatabaseHelper(); //データベースのインスタンス
+
+  DateDatabaseHelper dbShiftHelper = DateDatabaseHelper(); //日付データベースのインスタンス
+  UserDatabaseHelper dbUserHelper = UserDatabaseHelper();  //ユーザーデータベースのインスタンス
+
   List<StartToEnd> dbEventList = []; //データベースから取得したMapデータのリスト
   List<StartToEnd> textList = []; //ListView用テキストリスト
   String textData = ""; //ListTile用テキスト
@@ -59,13 +63,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final imagePicker = ImagePicker(); //画像撮影クラス
 
+  Map<String,dynamic> respo = {'IN':'??:??','OUT':'??:??','BRK':'??:??'};
+
   int currentIndex = 0;
   final List<Widget> pages = [
     const ShiftCalender(),
     const Setting(),
   ];
 
-  Future getImageFromCamera() async {
+  void getImageFromCamera() async {
     final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       final _image = File(pickedFile.path);
@@ -84,8 +90,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
       /// send to backend
       // サーバーにデータをPOST,予測画像をbase64に変換したものを格納したJSONで返ってくる
-      Response response = await http.post(url, body: body);
-      return response.body;
+      try{
+        Response response = await http.post(url, body: body).timeout(const Duration(minutes: 18));
+        if (response.statusCode == 200){
+        final data = jsonDecode(response.body);
+        respo = data;
+        setState(() {});
+        }
+      }catch(error){
+        throw Exception(error);
+        //setState(() {});
+      }
     }
   }
 
@@ -93,7 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
     dbShiftHelper.getAllData().then((times) {
       setState(() {
         dbEventList = times;
@@ -107,7 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text('開始${respo['IN']} 終了${respo['OUT']} 休憩${respo['BRK']}' ,
+        style: const TextStyle(fontSize: 23),),
       ),
 
       body: IndexedStack(
@@ -163,4 +178,24 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+class ReceivedData {
+  final String? start_time;
+  final String? end_time;
+  final String? break_time;
+
+  String? get getStartTime => start_time;
+  String? get getEndTime => end_time;
+  String? get getBreakTime => break_time;
+
+  ReceivedData(
+    {this.start_time,
+    this.end_time,
+    this.break_time});
+  
+  ReceivedData.fromJson(Map<String, dynamic> json)
+      : start_time = json['IN'],
+        end_time = json['OUT'],
+        break_time = json['BREAK'];
 }
