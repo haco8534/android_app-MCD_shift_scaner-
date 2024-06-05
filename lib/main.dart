@@ -81,17 +81,18 @@ class _MyHomePageState extends State<MyHomePage> {
       String base64Image = base64Encode(imageBytes);
 
       //サーバー側で設定してあるURLを選択
-      Uri url = Uri.parse('http://192.168.0.25:5000/receive');
+      Uri url = Uri.parse('http://192.168.0.25:5000');
 
       //json形式を文字列に変換
       String body = json.encode({
         'post_img': base64Image,
+        'crew_id': 'HC1855'
       });
 
       /// send to backend
       // サーバーにデータをPOST,予測画像をbase64に変換したものを格納したJSONで返ってくる
       try{
-        Response response = await http.post(url, body: body).timeout(const Duration(minutes: 18));
+        Response response = await http.post(url, body: body).timeout(const Duration(seconds: 10));
         if (response.statusCode == 200){
         final data = jsonDecode(response.body);
         respo = data;

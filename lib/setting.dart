@@ -44,8 +44,8 @@ class _SettingState extends State<Setting> {
           SettingsSection(title: const Text("個人設定"), tiles: [
             SettingsTile.navigation(
               leading: const Icon(Icons.person),
-              title: const Text("名前"),
-              value: const Text("池辺 志槻"),
+              title: const Text("クルーID"),
+              value: const Text("HC1855"),
             ),
             SettingsTile.navigation(
                 leading: const Icon(Icons.currency_yen),
