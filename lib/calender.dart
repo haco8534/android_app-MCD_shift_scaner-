@@ -183,8 +183,7 @@ class _ShiftCalenderState extends State<ShiftCalender> {
             width: double.infinity,
             height: 30,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 1),
-              color: Colors.blueGrey[50],
+              border: Border.all(color: Colors.grey, width: 1),
             ),
             child: Center(
               child: Text(

@@ -10,32 +10,63 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:mcd_app/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/date_model.dart';
-
 import 'setting.dart';
+import 'functions/set_color.dart';
+
 
 Future<void> main() async {
-  await initializeDateFormatting().then((_) => runApp(const MyApp()));
+  WidgetsFlutterBinding.ensureInitialized();
+  final isFirstLunch = await isFirstLaunch();
+  if(isFirstLunch){
+    
+  }
+  else{
+    ColorScheme ThemeColor = await setColor();
+    await initializeDateFormatting().then((_) => runApp(MyApp(initialThemeColor:ThemeColor)));
+  }
+}
+
+//初回起動時の設定
+Future<bool> isFirstLaunch() async {
+  final prefs = await SharedPreferences.getInstance();
+  final isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+  if (isFirstLaunch) {
+    prefs.setBool('isFirstLaunch',false);
+    prefs.setString('ThemeColor','ブルー');
+    return true;
+  } else {
+    return false;
+  }
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final ColorScheme initialThemeColor;
 
+  const MyApp({super.key, required this.initialThemeColor});
   @override
   State<MyApp> createState() => _MyAppState();
 }
-
 class _MyAppState extends State<MyApp> {
+
+  //ColorScheme ThemeColor = ColorScheme.fromSeed(seedColor: Colors.red);
+  ColorScheme ThemeColor = const ColorScheme.dark();
+  @override
+  void initState() {
+    super.initState();
+    ThemeColor = widget.initialThemeColor;
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
         splashColor: Colors.transparent,
+        colorScheme: ThemeColor,
+        useMaterial3: true,
       ),
       home: const MyHomePage(title: ''),
     );
@@ -81,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String base64Image = base64Encode(imageBytes);
 
       //サーバー側で設定してあるURLを選択
-      Uri url = Uri.parse('http://192.168.0.25:5000');
+      Uri url = Uri.parse('https://29ba-116-94-19-118.ngrok-free.app/');
 
       //json形式を文字列に変換
       String body = json.encode({
@@ -92,11 +123,18 @@ class _MyHomePageState extends State<MyHomePage> {
       /// send to backend
       // サーバーにデータをPOST,予測画像をbase64に変換したものを格納したJSONで返ってくる
       try{
-        Response response = await http.post(url, body: body).timeout(const Duration(seconds: 10));
+        Response response = await http.post(url, body: body).timeout(const Duration(seconds: 30));
         if (response.statusCode == 200){
-        final data = jsonDecode(response.body);
-        respo = data;
-        setState(() {});
+          final dynamic data;
+          if(response.body != '読み取りエラー'){
+            data = jsonDecode(response.body);
+          }
+          else{
+            data = response.body;
+          }
+          
+          respo = data;
+          setState(() {});
         }
       }catch(error){
         throw Exception(error);
@@ -121,9 +159,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('開始${respo['IN']} 終了${respo['OUT']} 休憩${respo['BRK']}' ,
-        style: const TextStyle(fontSize: 23),),
+          style: const TextStyle(fontSize: 23),),
       ),
 
       body: IndexedStack(

@@ -54,7 +54,14 @@ class _SettingState extends State<Setting> {
             SettingsTile.navigation(
                 leading: const Icon(Icons.color_lens),
                 title: const Text("テーマ"),
-                value: const Text("未定")),
+                value: const Text("未定"),
+                onPressed: (context){
+                  Navigator.push(
+                    context,
+                      MaterialPageRoute(builder: (context) => ())
+                  );
+                },
+                ),
           ]),
           SettingsSection(title: const Text("通知"), tiles: [
             SettingsTile.navigation(

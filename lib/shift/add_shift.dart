@@ -59,8 +59,7 @@ class _AddTaskState extends State<AddTask> {
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.white),
+                      border: Border.all(color: Colors.grey),),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -74,8 +73,8 @@ class _AddTaskState extends State<AddTask> {
                             padding: const EdgeInsets.all(10),
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  side: const BorderSide(
-                                color: Colors.grey,
+                                  side:  BorderSide(
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 width: 1,
                               )),
                               onPressed: () {
@@ -109,7 +108,6 @@ class _AddTaskState extends State<AddTask> {
                             child: TextButton(
                               style: TextButton.styleFrom(
                                   side: const BorderSide(
-                                color: Colors.grey,
                                 width: 1,
                               )),
                               onPressed: () {
@@ -138,7 +136,6 @@ class _AddTaskState extends State<AddTask> {
                             child: TextButton(
                               style: TextButton.styleFrom(
                                   side: const BorderSide(
-                                color: Colors.grey,
                                 width: 1,
                               )),
                               onPressed: () {
@@ -169,7 +166,6 @@ class _AddTaskState extends State<AddTask> {
                             child: TextButton(
                               style: TextButton.styleFrom(
                                   side: const BorderSide(
-                                color: Colors.grey,
                                 width: 1,
                               )),
                               onPressed: () {
@@ -213,7 +209,7 @@ class _AddTaskState extends State<AddTask> {
                         foregroundColor:
                             Theme.of(context).colorScheme.onPrimary,
                       ),
-                    child: const Text("完了")),
+                    child:  const Text("完了",style: TextStyle(color: Colors.white))),
                   ),
                 ),
               ],
