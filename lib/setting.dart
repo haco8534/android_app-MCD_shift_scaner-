@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-import 'package:mcd_app/models/user_model.dart';
+import 'setting_page/set_color.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -11,10 +11,6 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-
-  UserDatabaseHelper dbUserHelper = UserDatabaseHelper(); //ユーザーデータベースのインスタンス
-  List<UserData>? data; //データベースの全データ
-  UserData? record; //データベースの1番目のレコード
 
   String? name; //名前
   int? wage; //時給
@@ -58,7 +54,7 @@ class _SettingState extends State<Setting> {
                 onPressed: (context){
                   Navigator.push(
                     context,
-                      MaterialPageRoute(builder: (context) => ())
+                      MaterialPageRoute(builder: (context) => (const SetColor()))
                   );
                 },
                 ),

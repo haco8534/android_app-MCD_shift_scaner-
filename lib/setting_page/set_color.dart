@@ -10,5 +10,13 @@ class SetColor extends StatefulWidget {
 class _SetColor extends State<SetColor> {
   @override
   Widget build(BuildContext context) {
-
+    return Scaffold(
+      appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            toolbarHeight: 50,
+            title: const Text("編集"),
+          ),
+    );
+  }
 }
