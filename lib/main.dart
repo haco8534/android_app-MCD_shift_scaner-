@@ -52,7 +52,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   //ColorScheme ThemeColor = ColorScheme.fromSeed(seedColor: Colors.red);
-  ColorScheme ThemeColor = const ColorScheme.dark();
+  ColorScheme? ThemeColor;
   @override
   void initState() {
     super.initState();

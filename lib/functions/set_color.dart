@@ -23,7 +23,7 @@ Future<ColorScheme> setColor() async{
     colorScheme = ColorScheme.fromSeed(seedColor: Colors.pink);
   }
   else if(colorName == "ダーク"){
-    colorScheme = ColorScheme.fromSeed(seedColor: Colors.black);
+    colorScheme = const ColorScheme.dark();
   }
 
   return colorScheme!;

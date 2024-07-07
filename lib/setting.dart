@@ -15,22 +15,7 @@ class _SettingState extends State<Setting> {
   String? name; //名前
   int? wage; //時給
   String? theme;//テーマカラー
-/*
-  @override
-  void initState(){
-    super.initState();
-    dbUserHelper.insertData(UserData(id: 1,name: "undefined",wage: 9999,theme_color: "blue"));
-    Future(() async{
-      data = await dbUserHelper.getAllData();
-    });
 
-    record = data![0];
-    
-    name = record!.getName;
-    wage = record!.getWage;
-    theme = record!.getThemeColor;
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
