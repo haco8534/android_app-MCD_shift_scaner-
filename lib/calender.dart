@@ -135,7 +135,7 @@ class _ShiftCalenderState extends State<ShiftCalender> {
                   ),
                   headerPadding: EdgeInsets.all(1)),
               daysOfWeekStyle: const DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(fontSize: 12, color: Colors.black),
+                  weekdayStyle: TextStyle(fontSize: 12),
                   weekendStyle: TextStyle(fontSize: 12, color: Colors.red)),
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);

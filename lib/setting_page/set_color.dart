@@ -10,10 +10,19 @@ class SetColor extends StatefulWidget {
 
 class _SetColor extends State<SetColor> {
 
-  int? colorGroup = 0;
+  int? colorGroup;
+
+  void loadRadioIndex() async{
+      final prefs = await SharedPreferences.getInstance();
+      colorGroup = prefs.getInt("RadioIndex") ?? 0;
+    }
+
 
   @override
   Widget build(BuildContext context) {
+  
+    loadRadioIndex();
+
     return Scaffold(
       appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -36,6 +45,7 @@ class _SetColor extends State<SetColor> {
                     setState(() {
                       colorGroup = value;
                       prefs.setString('ThemeColor','ブルー');
+                      prefs.setInt('RadioIndex',0);
                     },);
                   },
                 ),
@@ -50,6 +60,7 @@ class _SetColor extends State<SetColor> {
                     setState(() {
                       colorGroup = value;
                       prefs.setString('ThemeColor','レッド');
+                      prefs.setInt('RadioIndex',1);
                     },);
                   },
                 ),
@@ -64,6 +75,7 @@ class _SetColor extends State<SetColor> {
                     setState(() {
                       colorGroup = value;
                       prefs.setString('ThemeColor','グリーン');
+                      prefs.setInt('RadioIndex',2);
                     },);
                   },
                 ),
@@ -78,6 +90,7 @@ class _SetColor extends State<SetColor> {
                     setState(() {
                       colorGroup = value;
                       prefs.setString('ThemeColor','ピンク');
+                      prefs.setInt('RadioIndex',3);
                     },);
                   },
                 ),
@@ -92,6 +105,7 @@ class _SetColor extends State<SetColor> {
                     setState(() {
                       colorGroup = value;
                       prefs.setString('ThemeColor','ダーク');
+                      prefs.setInt('RadioIndex',4);
                     },);
                   },
                 ),
@@ -106,7 +120,9 @@ class _SetColor extends State<SetColor> {
               children: [
                 ElevatedButton(
                   child: const Text("適用"),
-                  onPressed: (){},)
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },)
               ],
             ),
           ),
