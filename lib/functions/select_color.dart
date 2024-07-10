@@ -8,7 +8,7 @@ Future<ColorScheme> setColor() async{
   ColorScheme? colorScheme;
 
   final prefs = await SharedPreferences.getInstance();
-  colorName = prefs.getString('ThemeColor')!;
+  colorName = prefs.getString('ThemeColor') ?? "ブルー";
 
   if(colorName == "レッド"){
     colorScheme = ColorScheme.fromSeed(seedColor: Colors.red);
@@ -21,6 +21,9 @@ Future<ColorScheme> setColor() async{
   }
   else if(colorName == "ピンク"){
     colorScheme = ColorScheme.fromSeed(seedColor: Colors.pink);
+  }
+  else if(colorName == "パープル"){
+    colorScheme = ColorScheme.fromSeed(seedColor: Colors.purple);
   }
   else if(colorName == "ダーク"){
     colorScheme = const ColorScheme.dark();

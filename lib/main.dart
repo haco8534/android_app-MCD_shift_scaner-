@@ -14,10 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/date_model.dart';
 import 'setting.dart';
-import 'functions/set_color.dart';
+import 'functions/select_color.dart';
 
-
-Future<void> main() async {
+Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   final isFirstLunch = await isFirstLaunch();
   if(isFirstLunch){
@@ -49,10 +48,11 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
+
 class _MyAppState extends State<MyApp> {
 
-  //ColorScheme ThemeColor = ColorScheme.fromSeed(seedColor: Colors.red);
   ColorScheme? ThemeColor;
+
   @override
   void initState() {
     super.initState();

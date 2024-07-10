@@ -123,10 +123,8 @@ class _ShiftCalenderState extends State<ShiftCalender> {
               firstDay: DateTime.utc(2010, 10, 16),
               lastDay: DateTime.utc(2030, 3, 14),
               focusedDay: _focusedDay,
-
               locale: 'ja_JP',
               shouldFillViewport: true, //大きさの変更を許可
-
               headerStyle: const HeaderStyle(
                   formatButtonVisible: false, //フォーマットボタンを非表示
                   titleCentered: true, //日付を中央に配置

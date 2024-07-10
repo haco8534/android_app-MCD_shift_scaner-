@@ -74,7 +74,7 @@ class _AddTaskState extends State<AddTask> {
                             child: TextButton(
                               style: TextButton.styleFrom(
                                   side:  BorderSide(
-                                color: Theme.of(context).colorScheme.onPrimary,
+                                color: Theme.of(context).colorScheme.primary,
                                 width: 1,
                               )),
                               onPressed: () {
@@ -107,8 +107,9 @@ class _AddTaskState extends State<AddTask> {
                             padding: const EdgeInsets.all(10),
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  side: const BorderSide(
-                                width: 1,
+                                side: BorderSide(
+                                  width: 1,
+                                  color: Theme.of(context).colorScheme.primary,
                               )),
                               onPressed: () {
                                 DatePicker.showTimePicker(context,
@@ -135,8 +136,9 @@ class _AddTaskState extends State<AddTask> {
                             padding: const EdgeInsets.all(10),
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  side: const BorderSide(
-                                width: 1,
+                                  side:  BorderSide(
+                                    width: 1,
+                                    color: Theme.of(context).colorScheme.primary,
                               )),
                               onPressed: () {
                                 DatePicker.showTimePicker(context,
@@ -165,8 +167,9 @@ class _AddTaskState extends State<AddTask> {
                             padding: const EdgeInsets.all(10),
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  side: const BorderSide(
+                                  side: BorderSide(
                                 width: 1,
+                                color: Theme.of(context).colorScheme.primary,
                               )),
                               onPressed: () {
                                 DatePicker.showTimePicker(context,

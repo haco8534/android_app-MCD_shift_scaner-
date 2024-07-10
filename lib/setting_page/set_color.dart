@@ -28,7 +28,7 @@ class _SetColor extends State<SetColor> {
             automaticallyImplyLeading: false,
             backgroundColor: Theme.of(context).primaryColor,
             toolbarHeight: 50,
-            title: const Text("編集"),
+            title: const Text("テーマ"),
           ),
       body: Column(
         children:[
@@ -79,7 +79,7 @@ class _SetColor extends State<SetColor> {
                     },);
                   },
                 ),
-              ),
+              ),             
               ListTile(
                 title: const Text("ピンク",style: TextStyle(fontSize:20),),
                 leading: Radio(
@@ -94,11 +94,26 @@ class _SetColor extends State<SetColor> {
                     },);
                   },
                 ),
+              ),              
+              ListTile(
+                title: const Text("パープル",style: TextStyle(fontSize:20),),
+                leading: Radio(
+                  value: 4,
+                  groupValue: colorGroup,
+                  onChanged: (value) async{
+                    final prefs = await SharedPreferences.getInstance();
+                    setState(() {
+                      colorGroup = value;
+                      prefs.setString('ThemeColor','パープル');
+                      prefs.setInt('RadioIndex',3);
+                    },);
+                  },
+                ),
               ),
               ListTile(
                 title: const Text("ダーク",style: TextStyle(fontSize:20),),
                 leading: Radio(
-                  value: 4,
+                  value: 5,
                   groupValue: colorGroup,
                   onChanged: (value) async{
                     final prefs = await SharedPreferences.getInstance();
@@ -111,21 +126,26 @@ class _SetColor extends State<SetColor> {
                 ),
               ),
             ],
+            ),
         ),
-        ),
-          Container(
-            width: double.infinity,
-            alignment: Alignment.bottomRight,
-            child: Row(
-              children: [
-                ElevatedButton(
-                  child: const Text("適用"),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },)
-              ],
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: SizedBox(
+              height: 50,
+              width: 350,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                    ),
+                child: const Text("適用",style: TextStyle(color: Colors.white)),
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+              )
             ),
           ),
+          const Text("※テーマはアプリ再起動時に適用されます。",style: TextStyle(fontSize: 15)),
         ]),
     );
   }

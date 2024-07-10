@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'setting_page/set_color.dart';
 
@@ -14,7 +15,19 @@ class _SettingState extends State<Setting> {
 
   String? name; //名前
   int? wage; //時給
-  String? theme;//テーマカラー
+  String theme = "ブルー";//テーマカラー
+
+  Future<void> getTheme() async{
+    final prefs = await SharedPreferences.getInstance();
+    theme = prefs.getString('ThemeColor')!;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getTheme();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +48,9 @@ class _SettingState extends State<Setting> {
             SettingsTile.navigation(
                 leading: const Icon(Icons.color_lens),
                 title: const Text("テーマ"),
-                value: const Text("未定"),
+                value: Text(theme),
                 onPressed: (context){
-                  Navigator.push(
-                    context,
-                      MaterialPageRoute(builder: (context) => (const SetColor()))
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => (const SetColor()))
                   );
                 },
                 ),
