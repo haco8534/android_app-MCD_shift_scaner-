@@ -160,8 +160,8 @@ class _MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('開始${respo['IN']} 終了${respo['OUT']} 休憩${respo['BRK']}' ,
-          style: const TextStyle(fontSize: 23),),
+        title: Text('開始${respo['IN']} 終了${respo['OUT']} 休憩${respo['BRK']}',
+          style: const TextStyle(fontSize: 23))
       ),
 
       body: IndexedStack(
@@ -197,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50), //角の丸み
           ),
-          onPressed: () {
+          onPressed: () async{
             if (currentIndex != 0) {
               currentIndex = 0;
               setState(() {});

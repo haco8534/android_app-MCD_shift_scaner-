@@ -7,6 +7,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import 'models/date_model.dart';
 import 'shift/edit_shift.dart';
+import 'functions/confirm_exist_shift.dart';
 
 class ShiftCalender extends StatefulWidget {
   const ShiftCalender({super.key});
@@ -84,6 +85,7 @@ class _ShiftCalenderState extends State<ShiftCalender> {
       eventMap[utcThisDay] = ['${shift.getStartTime}~${shift.getEndTime}'];
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -234,12 +236,18 @@ class _ShiftCalenderState extends State<ShiftCalender> {
                 padding: const EdgeInsets.only(right: 10, bottom: 20),
                 child: OutlinedButton(
                   onPressed: () async {
-                    dbEventList = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              AddTask(_selectedDay ?? DateTime.now())),
-                    );
+                    DateToString dts = DateToString(_selectedDay ?? DateTime.now());
+                    bool isExistShift = await isExsistTheShift(dts.yearString(), dts.monthString(), dts.dayString());
+                    if(isExistShift == false){
+                      dbEventList = await Navigator.push(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AddTask(_selectedDay ?? DateTime.now())),
+                      );
+                      
+                    }
                     setState(() {});
                   },
                   style: OutlinedButton.styleFrom(
@@ -258,5 +266,22 @@ class _ShiftCalenderState extends State<ShiftCalender> {
         ],
       ),
     );
+  }
+}
+
+//DateTimeをStringに変換
+class DateToString {
+  final DateTime _dateTime;
+
+  DateToString(this._dateTime);
+
+  String yearString() {
+    return _dateTime.year.toString();
+  }
+  String monthString() {
+    return _dateTime.month.toString();
+  }
+  String dayString() {
+    return _dateTime.day.toString();
   }
 }

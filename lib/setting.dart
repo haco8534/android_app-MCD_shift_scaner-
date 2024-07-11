@@ -3,6 +3,8 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'setting_page/set_color.dart';
+import 'setting_page/set_crew_id.dart';
+import 'setting_page/set_wage.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -40,11 +42,34 @@ class _SettingState extends State<Setting> {
               leading: const Icon(Icons.person),
               title: const Text("クルーID"),
               value: const Text("HC1855"),
+              onPressed: (context){
+                showDialog(
+                  context: context,
+                  builder: (context){
+                    return SingleChildScrollView(
+                      reverse: true,
+                      child: CrewIdWidget().dialogWidget(context),
+                    );
+                  } 
+                );
+              },
             ),
             SettingsTile.navigation(
                 leading: const Icon(Icons.currency_yen),
                 title: const Text("時給"),
-                value: const Text("1000円")),
+                value: const Text("1000円"),
+                onPressed: (context){
+                showDialog(
+                  context: context,
+                  builder: (context){
+                    return SingleChildScrollView(
+                      reverse: true,
+                      child: WageWidget().dialogWidget(context),
+                    );
+                  } 
+                );
+                },
+            ),
             SettingsTile.navigation(
                 leading: const Icon(Icons.color_lens),
                 title: const Text("テーマ"),
