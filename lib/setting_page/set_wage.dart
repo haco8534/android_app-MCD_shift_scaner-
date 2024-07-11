@@ -110,6 +110,7 @@ class WageWidget {
             margin: const EdgeInsets.all(10),
             child: MediaQuery(
               data: data.copyWith(
+                  // ignore: deprecated_member_use
                   textScaler: TextScaler.linear(min(1.5, data.textScaleFactor))),
               child: TextFormField(
                   onChanged: (value) {},
