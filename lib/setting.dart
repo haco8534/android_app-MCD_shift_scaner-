@@ -64,15 +64,17 @@ class _SettingState extends State<Setting> {
                 title: const Text("時給"),
                 value: Text('${wage ?? "???"}円'),
                 onPressed: (context){
-                showDialog(
-                  context: context,
-                  builder: (context){
-                    return SingleChildScrollView(
-                      reverse: true,
-                      child: WageWidget().dialogWidget(context),
-                    );
-                  } 
-                );
+                  showDialog(
+                    context: context,
+                    builder: (context){
+                      return SingleChildScrollView(
+                        reverse: true,
+                        child: WageWidget().dialogWidget(context),
+                      );
+                      
+                    } 
+                  );
+                  setState(() {});
                 },
             ),
             SettingsTile.navigation(
@@ -80,8 +82,7 @@ class _SettingState extends State<Setting> {
                 title: const Text("テーマ"),
                 value: Text(theme),
                 onPressed: (context){
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => (const SetColor()))
-                  );
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => (const SetColor())));
                 },
                 ),
           ]),

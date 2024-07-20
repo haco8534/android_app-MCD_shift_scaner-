@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CrewIdWidget {
-
   Widget dialogWidget(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    const userInfoSidePadding = 10.0;
+    final MediaQueryData data = MediaQuery.of(context);
 
-    Future<void> setNewData(String data, String value) async{
+    String? inputText;
+
+    Future<void> setNewData(String value) async{
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString(data, value);
+      prefs.setString("CrewId", value);
     }
 
     return AlertDialog(
@@ -24,9 +25,66 @@ class CrewIdWidget {
           Column(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: userInfoSidePadding),
-                child: _inputForm(context, "クルーID", "AB1234"),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 25,
+                            width: 5,
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Text("クルーID", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        child: MediaQuery(
+                          data: data.copyWith(
+                              // ignore: deprecated_member_use
+                              textScaler: TextScaler.linear(min(1.5, data.textScaleFactor))
+                                ),
+                          child: TextFormField(
+                              onChanged: (value) {
+                                inputText = value;
+                              },
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white70,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: const BorderSide(
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 5,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: const BorderSide(
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                  hintText: "AB1234"),
+                              keyboardType: TextInputType.text),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ),
               const Text("アルファベットは大文字、数字は半角で入力してください",style: TextStyle(fontSize: 9)),
               const Divider(
@@ -71,6 +129,7 @@ class CrewIdWidget {
                         backgroundColor: Colors.green,
                       ),
                       onPressed: () async{
+                        setNewData(inputText ?? "????");
                         Navigator.pop(context);
                       },
                       child: Container(
@@ -82,71 +141,6 @@ class CrewIdWidget {
               ),
             ],
           )
-        ],
-      ),
-    );
-  }
-
-  Widget _inputForm(BuildContext context, String title, String hintText) {
-    final MediaQueryData data = MediaQuery.of(context);
-
-    return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                height: 25,
-                width: 5,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                title,
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          Container(
-            margin: const EdgeInsets.all(10),
-            child: MediaQuery(
-              data: data.copyWith(
-                  // ignore: deprecated_member_use
-                  textScaler: TextScaler.linear(min(1.5, data.textScaleFactor))
-                    ),
-              child: TextFormField(
-                  onChanged: (value) {},
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                      fillColor: Colors.white70,
-                      filled: true,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Colors.white70,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 5,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Colors.white70,
-                        ),
-                      ),
-                      hintText: hintText),
-                  keyboardType: TextInputType.text),
-            ),
-          ),
         ],
       ),
     );

@@ -34,7 +34,7 @@ Future<bool> isFirstLaunch() async {
   if (isFirstLaunch) {
     prefs.setBool('isFirstLaunch', false);
     prefs.setString('ThemeColor', 'ブルー');
-    prefs.setString('CrewId', 'AB1234');
+    prefs.setString('CrewId', 'AB0000');
     prefs.setString('Wage', '990');
     return true;
   } else {
