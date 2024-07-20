@@ -55,8 +55,7 @@ class _ShiftCalenderState extends State<ShiftCalender> {
       dbDayText = "${shift.getYear!}/${shift.getMonth!}/${shift.getDay!}";
       dbDayDateTime = DateFormat("yyyy/M/d").parseStrict(dbDayText);
 
-      if (DateFormat("yyyy/MM/dd").format(_selectedDay!) ==
-          DateFormat("yyyy/MM/dd").format(dbDayDateTime)) {
+      if (DateFormat("yyyy/MM/dd").format(_selectedDay!) == DateFormat("yyyy/MM/dd").format(dbDayDateTime)) {
         _seledtedId.add(shift.getId!);
       }
     }

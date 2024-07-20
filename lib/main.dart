@@ -9,7 +9,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:mcd_app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/date_model.dart';
@@ -33,8 +32,10 @@ Future<bool> isFirstLaunch() async {
   final prefs = await SharedPreferences.getInstance();
   final isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
   if (isFirstLaunch) {
-    prefs.setBool('isFirstLaunch',false);
-    prefs.setString('ThemeColor','ブルー');
+    prefs.setBool('isFirstLaunch', false);
+    prefs.setString('ThemeColor', 'ブルー');
+    prefs.setString('CrewId', 'AB1234');
+    prefs.setString('Wage', '990');
     return true;
   } else {
     return false;
@@ -85,7 +86,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   DateDatabaseHelper dbShiftHelper = DateDatabaseHelper(); //日付データベースのインスタンス
-  UserDatabaseHelper dbUserHelper = UserDatabaseHelper();  //ユーザーデータベースのインスタンス
 
   List<StartToEnd> dbEventList = []; //データベースから取得したMapデータのリスト
   List<StartToEnd> textList = []; //ListView用テキストリスト

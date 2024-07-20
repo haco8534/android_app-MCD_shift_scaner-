@@ -16,11 +16,16 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> {
 
   String? name; //名前
-  int? wage; //時給
+  String? wage; //時給
   String theme = "ブルー";//テーマカラー
 
-  Future<void> getTheme() async{
+  String? inputName;  //入力されたクルーID
+  String? inputWage;  //入力された時給
+
+  Future<void> ititialSetting() async{
     final prefs = await SharedPreferences.getInstance();
+    name = prefs.getString('CrewId');
+    wage = prefs.getString('Wage');
     theme = prefs.getString('ThemeColor')!;
     setState(() {});
   }
@@ -28,7 +33,7 @@ class _SettingState extends State<Setting> {
   @override
   void initState() {
     super.initState();
-    getTheme();
+    ititialSetting();
   }
 
   @override
@@ -41,7 +46,7 @@ class _SettingState extends State<Setting> {
             SettingsTile.navigation(
               leading: const Icon(Icons.person),
               title: const Text("クルーID"),
-              value: const Text("HC1855"),
+              value: Text(name ?? "???"),
               onPressed: (context){
                 showDialog(
                   context: context,
@@ -57,7 +62,7 @@ class _SettingState extends State<Setting> {
             SettingsTile.navigation(
                 leading: const Icon(Icons.currency_yen),
                 title: const Text("時給"),
-                value: const Text("1000円"),
+                value: Text('${wage ?? "???"}円'),
                 onPressed: (context){
                 showDialog(
                   context: context,

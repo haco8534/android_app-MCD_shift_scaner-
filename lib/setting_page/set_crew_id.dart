@@ -1,13 +1,17 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-///
-/// アカウント情報編集画面
-///
 class CrewIdWidget {
+
   Widget dialogWidget(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     const userInfoSidePadding = 10.0;
+
+    Future<void> setNewData(String data, String value) async{
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString(data, value);
+    }
 
     return AlertDialog(
       insetPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -51,7 +55,8 @@ class CrewIdWidget {
                       child: Container(
                         margin: const EdgeInsets.only(top: 15, bottom: 15),
                         child: const Text("戻る"),
-                      )),
+                      ),
+                  ),
                 ),
               ),
               Expanded(
@@ -65,13 +70,16 @@ class CrewIdWidget {
                         foregroundColor: Colors.white,
                         backgroundColor: Colors.green,
                       ),
-                      onPressed: () {},
+                      onPressed: () async{
+                        Navigator.pop(context);
+                      },
                       child: Container(
                         margin: const EdgeInsets.only(top: 15, bottom: 15),
                         child: const Text("変更する"),
-                      )),
+                      ),
+                  ),
                 ),
-              )
+              ),
             ],
           )
         ],
@@ -111,7 +119,8 @@ class CrewIdWidget {
             child: MediaQuery(
               data: data.copyWith(
                   // ignore: deprecated_member_use
-                  textScaler: TextScaler.linear(min(1.5, data.textScaleFactor))),
+                  textScaler: TextScaler.linear(min(1.5, data.textScaleFactor))
+                    ),
               child: TextFormField(
                   onChanged: (value) {},
                   autovalidateMode: AutovalidateMode.onUserInteraction,
